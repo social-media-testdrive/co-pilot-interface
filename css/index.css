@@ -1,0 +1,65 @@
+.ui.one.column.centered.grid {
+    padding-top: 1em;
+}
+
+#content {
+    padding-top: 6em;
+}
+
+#removeHidden,
+#removeHiddenMobile {
+    display: none;
+}
+
+.img.post img {
+    max-width: 100%;
+}
+
+.ui.red.label {
+    display: flex;
+    margin-left: 10px !important;
+}
+
+.ui.label>img.image {
+    width: 2.5em !important;
+    height: auto !important;
+}
+
+.extra.content>.ui.input>.ui.label {
+    padding: 0.5em !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ui.form {
+    width: 100%;
+}
+
+
+/* notification popups */
+
+
+/* https://stackoverflow.com/questions/26421274/css-circular-cropping-of-rectangle-image */
+
+.ui.sticky.notificationPopup .label {
+    overflow: hidden;
+    width: 3em;
+    height: 3em;
+}
+
+img.popupNotificationImage {
+    width: 100%;
+    height: 100%;
+    display: inline;
+    margin: 0 auto;
+}
+
+#desktopPopup,
+#mobilePopup {
+    padding-bottom: 4em;
+    padding-left: 1em;
+    padding-right: 1em;
+    display: none;
+    cursor: pointer;
+}

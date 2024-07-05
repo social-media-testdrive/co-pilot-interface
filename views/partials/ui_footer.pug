@@ -1,0 +1,29 @@
+-var labels = {"Educator1": {"name": "Ms. Zou", "photo": "/profile_pictures/teacher.jpg"}, "Peer1": {"name": "Dan J", "photo": "/profile_pictures/student.jpg"}, "Bot": {"name": "Conversational AI Agent", "photo": "/profile_pictures/convo_bot.jpg"}}
+-var labels_2 = ["Mrs. Warren", "Daniel Powers", "Alfred Fluffington", "Conversational AI Agent"]
+.ui.bottom.fixed.small.borderless.menu.testDriveFooter
+  .left.menu
+    .item
+      .ui.toggle.checkbox.hidden#isAgentCheckbox
+        input(type="checkbox", name="isAgentCheckbox" id='isAgentCheckbox')
+        label(for='isAgentCheckbox') isAgent (On/Off)
+    .item
+      .ui.selection.dropdown.hidden#agentTypeDropdown
+        i.dropdown.icon 
+        .text Select Agent 
+        .menu
+          //- each val, key in labels
+          //-   .item(data-value=key) #{val["name"]}
+          each key in labels_2
+            .item(data-value=key) #{key}
+        
+  .right.menu
+    .item(id="sessionID") Session ID:
+    a.item(href='https://socialmediatestdrive.org/terms.html') Terms of Service 
+    a.item(href='/privacy') Privacy Policy  
+    a.item(href='mailto:socialmediatestdrive@gmail.com') Contact Us
+
+script. 
+  // Set session ID in footer
+  const session_ID = window.location.pathname.split('/')[1];
+  sessionID.innerHTML = "Session ID: " + session_ID;
+  $('.ui.dropdown').dropdown();

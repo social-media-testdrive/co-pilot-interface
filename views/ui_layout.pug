@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='theme-color' content='#4DA5F4')
+    meta(name='enableGPT3', content=process.env.ENABLE_GPT3)
+    title #{title} - Social Media TestDrive
+    link(rel='shortcut icon', href='profile_pictures/convo_bot.png')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css', integrity='sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=', crossorigin='anonymous')
+    link(type='text/css', rel='stylesheet', href='header.css') 
+    link(type='text/css', rel='stylesheet', href='ui_layout.css') 
+    block styles
+
+  body
+    script(src='/jquery-3.1.1.min.js', type='text/javascript')
+    script(src='/humanized_time_span.js', type='text/javascript')
+    script(src='/lazyload.transpiled.min.js', type='text/javascript')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js', integrity="sha256-ZUdSt2scSiBqI3Tso+Al3lcqkBvgRShVrUc1pvvGGVE=" crossorigin="anonymous")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js', integrity="sha256-v8vuH0gf888S01qYrvK2hDq/RfE2au7WOLbqlPzDwOQ=" crossorigin="anonymous")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js', integrity='sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=', crossorigin='anonymous')
+    script(src='/main.js')
+
+    .ui.vertically.padded.grid.container.addBottomPaddingToGrid
+      include partials/ui_header
+      block content     
+    include partials/ui_footer
+
+    block scripts 

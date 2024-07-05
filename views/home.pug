@@ -1,0 +1,14 @@
+
+extends ui_layout
+
+block content
+  #content.sixteen.wide.computer.sixteen.wide.tablet.sixteen.wide.mobile.column      
+    .ui.input.action.large 
+      input.sessionID(type="text", placeholder="Enter Session ID", name="Session ID")
+      button.ui.enter.button Enter
+  
+block styles
+  link(rel='stylesheet', href='home.css')
+
+block scripts
+  script(src='/home.js')

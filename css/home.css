@@ -1,0 +1,6 @@
+#content,
+#warning {
+    justify-content: center;
+    display: flex;
+    padding-top: 10em;
+}
