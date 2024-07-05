@@ -1,0 +1,84 @@
+//- Actor Post
+.ui.fluid.card.dim(post_id = val.post_id, post=val.id, type='actor')
+  //- dimmer DIV for flagging
+  .ui.dimmer.flag(class=val.flagged ? "active": "")
+    .content
+      .center
+        h2.ui.inverted.icon.header
+          i.red.flag.icon
+          | You've flagged this!
+          h3.ui.inverted.header
+              span="The admins will review this post further. We are sorry you had this experience."
+        .ui.inverted.unflag.button(tabindex='0')
+          i.flag.icon
+          |  Unflag
+  //- Normal Base Post
+  .content
+    .right.floated.time.meta= (Date.now() + val.time)
+    a.left.floated(href='/user/'+val.actor.username)
+      img.ui.avatar.image(src='/profile_pictures/'+val.actor.profile.picture)
+      span=val.actor.profile.name
+  .img.post.image
+    img(src="/post_pictures/"+val.picture)
+  .content
+    .description!=val.body
+  .ui.bottom.attached.icon.buttons
+    .ui.reply.button(tabindex='0')
+      i.reply.icon
+      |  Reply
+    .ui.flag.button(tabindex='0')
+      i.flag.icon
+      |  Flag
+    .ui.labeled.button(tabindex='0')
+      .ui.like.button(class=val.liked ? "red" : "")
+        i.heart.icon
+        |  Like
+      a.ui.basic.red.left.pointing.label.count=val.likes
+  if val.comments.length > 0
+    .content
+      .ui.comments
+        each comment in val.comments
+          .comment(comment=comment.id, comment_id=comment.comment_id)
+            .content(class=!comment.flagged ? "transition hidden" : "")                           
+              .text(style="background-color: black; color: white; padding: 0.2em;")  You flagged this comment. The admins will review this comment further. We are sorry you had this experience.
+              .actions 
+                a.unflag Unflag
+            //- Comment is user-made
+            if comment.new_comment
+              a.avatar.image
+                img.ui.avatar.image.small(src='/profile_pictures/avatar-icon.svg')    
+              .content
+                a.author Guest
+                .metadata
+                  span.date=(comment.time)
+                  .rating
+                    i.heart.icon(class=comment.liked ? "red" : "")
+                    span.num=comment.likes 
+                    |  Likes
+                .text=comment.body
+                .actions
+                  a.like.comment(class=comment.liked ? "red" : "") !{comment.liked ? "Unlike" : "Like"}
+            //- Else this is a normal comment from the script
+            else
+              a.avatar.image(class=comment.flagged ? "transition hidden" : "") 
+                img(src='/profile_pictures/'+comment.actor.profile.picture)
+              .content(class=comment.flagged ? "transition hidden" : "")  
+                a.author=comment.actor.profile.name
+                .metadata
+                  span.date=(Date.now() + comment.time)
+                  .rating
+                    i.heart.icon(class=comment.liked ? "red" : "")
+                    span.num=comment.likes
+                    |  Likes
+                .text=comment.body
+                .actions
+                  a.like.comment(class=comment.liked ? "red" : "") !{comment.liked ? "Unlike" : "Like"}
+                  a.flag.comment Flag
+  .extra.content
+    .ui.fluid.left.labeled.right.icon.input
+      .ui.label
+        img.ui.avatar.image.small(src='/profile_pictures/avatar-icon.svg')         
+      .ui.form
+        .field 
+          textarea.newcomment(type='text', placeholder='Write a Comment' rows='1')
+      i.big.send.link.icon
