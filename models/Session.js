@@ -11,7 +11,8 @@ const sessionSchema = new mongoose.Schema({
         post: { type: Schema.ObjectId, ref: 'Script' }, // Indicates which post the user interacted with. ObjectId references object in Scripts or object in user.posts.
         post_id: String, // '1', '2', '3' etc.
         liked: { type: Boolean, default: false }, // Indicates if the user liked the post.
-        flagged: { type: Boolean, default: false }, // Indicates if the user flagged the post. Functionality is disabled in tutorial sections, so this value is always false.
+        flagged: { type: Boolean, default: false }, // Indicates if the user flagged the post. 
+        shared: { type: Boolean, default: false }, // Indicates if the user shared the post. 
 
         comments: [new Schema({
             comment: { type: Schema.ObjectId },
@@ -24,10 +25,19 @@ const sessionSchema = new mongoose.Schema({
             absTime: Date, // The absolute date (time) of when the user made the comment.
 
             liked: { type: Boolean, default: false }, // Indicates if the user liked the comment.
-            flagged: { type: Boolean, default: false }, // Indicates if the user liked the comment. Functionality is disabled in tutorial sections, so this value is always false.
+            flagged: { type: Boolean, default: false }, // Indicates if the user liked the comment. 
         }, { _id: true, versionKey: false })],
     }, { _id: false, versionKey: false })],
-    // TO DO: Add infrastructure to log messages into the database
+    // interactions with chats
+    chatAction: [new Schema({
+        chat_id: String, // chat id's are defined by who it is in correspondance with: aka actors' usernames
+        messages: [new Schema({
+            body: { type: String, default: '', trim: true }, // Body of the chat message
+            absTime: String, // The absolute date (time) of when the chat message was made
+            name: String, // Indicates who made the chat message
+            isAgent: { type: Boolean, default: false }, // Indicates if the user made the chat message
+        }, { _id: true, versionKey: false })],
+    }, { _id: false, versionKey: false })],
 
 }, { timestamps: true });
 

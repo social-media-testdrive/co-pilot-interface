@@ -157,6 +157,23 @@ function flagPost(e) {
     target.closest(".ui.fluid.card").find(".ui.dimmer.flag").dimmer({ closable: false }).dimmer('show');
 }
 
+// Sharing post
+function sharePost(e) {
+    $('.ui.small.basic.share.modal').modal('show');
+    const target = $(e.target);
+    const postElement = target.closest(".ui.fluid.card");
+    const post = postElement.attr("post");
+    const post_id = postElement.attr("post_id");
+
+    const currDate = Date.now();
+    $.post("/feed", {
+        sessionID: sessionID,
+        post: post,
+        post_id: post_id,
+        share: currDate,
+    });
+}
+
 // Unflagging post
 function unflagPost(e) {
     const target = $(e.target);
@@ -417,6 +434,9 @@ $(window).on("load", () => {
 
     // flag a post
     $(".flag.button").click(flagPost);
+
+    // share a post
+    $(".share.button").click(sharePost);
 
     // unflag a post
     $(".unflag.button").click(unflagPost);

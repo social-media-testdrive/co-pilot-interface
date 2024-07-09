@@ -25,10 +25,10 @@ function updateChatImage() {
     if (window.location.pathname !== "/") {
         $(".chat .chat-header img.ui.avatar.image").attr("src", src);
         if (isAgent == 'true') {
-            $(".chat .chat-header .chat-about").css("margin-top", "0px")
-            $(".chat .chat-header .chat-about .chat-with").html("Chat with Co-Pilot <br/>(" + agentType + ")");
+            $(".chat .chat-header .chat-about").css("margin-top", "0px");
+            $(".chat .chat-header .chat-about .chat-with").html("Chat as Co-Pilot <br/>(" + agentType + ")");
         } else {
-            $(".chat .chat-header .chat-about").css("margin-top", "6px")
+            $(".chat .chat-header .chat-about").css("margin-top", "6px");
             $(".chat .chat-header .chat-about .chat-with").html("Chat with Co-Pilot");
         }
     }

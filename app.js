@@ -58,9 +58,11 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+app.get('/chat', scriptController.getChat);
 app.get('/:sessionID', scriptController.getScript);
 
 app.post('/feed', scriptController.postfeedAction);
+app.post('/chat', scriptController.postchatAction);
 // app.post('/gpt3', openaiController.getResponses);
 
 io.on('connection', (socket) => {

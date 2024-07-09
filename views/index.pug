@@ -8,7 +8,14 @@ block content
       include partials/actorPost
   .computer.only.tablet.only.six.wide.column
     include partials/chatbot
-
+  .ui.small.basic.share.modal
+    .ui.icon.header
+      i.share.icon
+      | You have shared this post!
+    .actions(style="text-align:center;")   
+      .ui.green.ok.inverted.button
+        i.checkmark.icon
+        | Done
   //- //-Mobile version of the notification popup
   //- .ui.fixed.bottom.sticky.notificationPopup.hidden#mobilePopup(correspondingpost=0)
   //-     .ui.info.message#removeHiddenMobile

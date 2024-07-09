@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 /**
  * GET /:sessionID
- * Returns feed of posts, with user's actions with the posts accounted for.
+ * Returns feed of posts, with the user's actions on the posts accounted for.
  */
 exports.getScript = async(req, res, next) => {
     try {
@@ -111,6 +111,24 @@ exports.getScript = async(req, res, next) => {
 };
 
 /**
+ * GET /chat
+ * Returns list of messages of chat with chat_id value
+ */
+exports.getChat = async(req, res, next) => {
+    try {
+        let session = await Session.findOne({ sessionID: req.query.sessionID }).exec();
+
+        const feedIndex = _.findIndex(session.chatAction, function(o) { return o.chat_id == req.query.chat_id });
+        const messages = session.chatAction[feedIndex].messages;
+
+        res.send(messages);
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+};
+
+/**
  * POST /feed
  * Add user's actions on posts.
  * All likes, flags, new comments (with actions on those comments as well) are recorded in the database.
@@ -192,6 +210,11 @@ exports.postfeedAction = async(req, res, next) => {
                 userAction[feedIndex].flagged = false;
             }
 
+            // Share post
+            else if (req.body.share) {
+                userAction[feedIndex].shared = true;
+            }
+
             // Like post
             else if (req.body.like) {
                 userAction[feedIndex].liked = true;
@@ -210,6 +233,42 @@ exports.postfeedAction = async(req, res, next) => {
             returningJson["comment_id"] = session.numComments;
             returningJson["comment"] = userAction[feedIndex].comments[commentIndex].id;
         }
+        res.send(returningJson);
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+};
+
+/**
+ * POST /chat
+ * Add actions with chats.
+ */
+exports.postchatAction = async(req, res, next) => {
+    try {
+        let session = await Session.findOne({ sessionID: req.body.sessionID }).exec();
+        let userAction = session.chatAction;
+
+        // Then find the object from the right chat in feed.
+        let feedIndex = _.findIndex(userAction, function(o) { return o.chat_id == req.body.chat_id; });
+        if (feedIndex == -1) {
+            const cat = {
+                chat_id: req.body.chat_id
+            };
+            // add new chat into correct location
+            feedIndex = userAction.push(cat) - 1;
+        }
+
+        const cat = {
+            body: req.body.body,
+            absTime: req.body.absTime,
+            name: req.body.name,
+            isAgent: req.body.isAgent
+        };
+        userAction[feedIndex].messages.push(cat);
+
+        await session.save();
+        let returningJson = { result: "success" };
         res.send(returningJson);
     } catch (err) {
         console.log(err);

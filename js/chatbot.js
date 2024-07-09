@@ -1,13 +1,21 @@
 $(window).on("load", function() {
+    // Get previous messages in #co-pilot chat
+    $.getJSON("/chat", { "sessionID": sessionID, "chat_id": "copilot-chat" }, function(data) {
+        const chat = $('#copilot-chat.container.clearfix').data('chatInstance');
+        for (const msg of data) {
+            chat.addMessageExternal(msg.body, msg.absTime, msg.name, msg.isAgent);
+        }
+    });
+
     // Socket listening to broadcasts
     socket.on("chat message", function(msg) {
         const chat = $('.container.clearfix').data('chatInstance');
         if (chat && sessionID == msg.sessionID) {
-            chat.addMessageExternal(msg.isAgent, msg.name, msg.text);
+            chat.addMessageExternal(msg.body, msg.absTime, msg.name, msg.isAgent);
         } else {
             console.error("Chat instance not found for message:", msg);
         }
-    })
+    });
 
     $('.container.clearfix').each(function() {
         const chatId = this.id;
@@ -35,9 +43,9 @@ $(window).on("load", function() {
                 this.$button.on('click', this.addMessage.bind(this));
                 this.$textarea.on('keydown', this.addMessageEnter.bind(this));
             },
-            render: function(isAgent, name, message) {
+            render: function(body, absTime, name, isAgent) {
                 this.scrollToBottom();
-                if (message.trim() !== '') {
+                if (body.trim() !== '') {
                     let template;
                     if (isAgent) {
                         template = Handlebars.compile($("#other-message-template").html());
@@ -46,8 +54,8 @@ $(window).on("load", function() {
                     }
                     let context = {
                         name: name,
-                        messageOutput: message,
-                        time: this.getCurrentTime()
+                        messageOutput: body,
+                        time: absTime
                     };
 
                     this.$chatHistoryList.append(template(context));
@@ -59,6 +67,9 @@ $(window).on("load", function() {
                         this.scrollToBottom();
                     }.bind(this), 1500);
                 }
+                if (!this.$chatHistory.is(":visible")) {
+                    this.$chatHistory.slideToggle(300, 'swing');
+                }
             },
 
             addMessage: function() {
@@ -69,19 +80,29 @@ $(window).on("load", function() {
                 // const src = !isAgent ? "/profile_pictures/avatar-icon.svg" : actors[agentType];
                 const name = !isAgent ? "Me" : agentType;
                 const message = this.$textarea.val();
+                const time = this.getCurrentTime();
+
                 socket.emit("chat message", {
-                    text: message,
                     sessionID: window.location.pathname.split('/')[1],
+                    body: message,
+                    absTime: time,
                     name: name,
                     isAgent: isAgent
                 });
+                this.render(message, time, name, isAgent);
 
-                // TO DO: Add infrastructure to log messages into the database
-                this.render(isAgent, name, message);
+                $.post("/chat", {
+                    sessionID: sessionID,
+                    chat_id: chatId,
+                    body: message,
+                    absTime: time,
+                    name: name,
+                    isAgent: isAgent
+                });
             },
 
-            addMessageExternal: function(isAgent, name, message) {
-                this.render(isAgent, name, message);
+            addMessageExternal: function(body, absTime, name, isAgent) {
+                this.render(body, absTime, name, isAgent);
             },
 
             addMessageEnter: function(event) {
