@@ -5,9 +5,7 @@ function addSessionID(event) {
         $("input[name='Session ID']").val("");
         $("input[name='Session ID']").focus();
     } else {
-        // Sets session storage "SessionID", redirect to '/cyberbully' route
-        // window.sessionStorage.setItem('Session ID', sessionID);
-        window.location.href = `/${sessionID}`;
+        window.location.href = window.location.pathname + `/${sessionID}` + window.location.search;
     }
 }
 

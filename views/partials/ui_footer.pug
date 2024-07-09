@@ -1,20 +1,19 @@
 -var labels = {"Educator1": {"name": "Ms. Zou", "photo": "/profile_pictures/teacher.jpg"}, "Peer1": {"name": "Dan J", "photo": "/profile_pictures/student.jpg"}, "Bot": {"name": "Co-Pilot", "photo": "/profile_pictures/convo_bot.jpg"}}
 -var labels_2 = [ "Co-Pilot", "Mrs. Warren", "Daniel Powers", "Alfred Fluffington"]
 .ui.bottom.fixed.small.borderless.menu.testDriveFooter
-  .left.menu
-    .item
-      .ui.toggle.checkbox.hidden#isAgentCheckbox
-        input(type="checkbox", name="isAgentCheckbox" id='isAgentCheckbox')
-        label(for='isAgentCheckbox') isAgent (On/Off)
-    .item
-      .ui.selection.dropdown.hidden#agentTypeDropdown
-        i.dropdown.icon 
-        .text Select Agent 
-        .menu
-          //- each val, key in labels
-          //-   .item(data-value=key) #{val["name"]}
-          each key in labels_2
-            .item(data-value=key) #{key}
+  if isResearcher
+    .left.menu
+      .item
+        .ui.toggle.checkbox.hidden#isAgentCheckbox
+          input(type="checkbox", name="isAgentCheckbox" id='isAgentCheckbox')
+          label(for='isAgentCheckbox') isAgent (On/Off)
+      .item
+        .ui.selection.dropdown.hidden#agentTypeDropdown
+          i.dropdown.icon 
+          .text Select Agent 
+          .menu
+            each key in labels_2
+              .item(data-value=key) #{key}
         
   .right.menu
     .item(id="sessionID") Session ID:
@@ -24,6 +23,6 @@
 
 script. 
   // Set session ID in footer
-  const session_ID = window.location.pathname.split('/')[1];
+  const session_ID = window.location.pathname.split('/')[2];
   sessionID.innerHTML = "Session ID: " + session_ID;
   $('.ui.dropdown').dropdown();
