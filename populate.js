@@ -136,12 +136,12 @@ async function doPopulate() {
                             const postdetail = {
                                 body: new_post.body,
                                 post_id: new_post.id,
-                                module: new_post.module,
                                 picture: new_post.picture,
                                 likes: new_post.likes || getLikes(),
                                 actor: act,
 
-                                time: timeStringToNum(new_post.time)
+                                time: timeStringToNum(new_post.time),
+                                scenario: new_post.scenario
                             }
 
                             const script = new Script(postdetail);

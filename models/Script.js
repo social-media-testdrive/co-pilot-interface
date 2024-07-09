@@ -9,6 +9,7 @@ const scriptSchema = new mongoose.Schema({
     actor: { type: Schema.ObjectId, ref: 'Actor' }, // Actor who created post.
 
     time: Number, // Relative time of the post, in milliseconds.
+    scenario: String, // The experimental scenario the post belongs to
 
     // comments for this post (is an array)
     comments: [new Schema({

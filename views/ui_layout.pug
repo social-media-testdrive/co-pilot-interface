@@ -7,10 +7,10 @@ html
     meta(name='theme-color' content='#4DA5F4')
     meta(name='enableGPT3', content=process.env.ENABLE_GPT3)
     title #{title} - Social Media TestDrive
-    link(rel='shortcut icon', href='profile_pictures/convo_bot.png')
+    link(rel='shortcut icon', href='/profile_pictures/convo_bot.png')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css', integrity='sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=', crossorigin='anonymous')
-    link(type='text/css', rel='stylesheet', href='header.css') 
-    link(type='text/css', rel='stylesheet', href='ui_layout.css') 
+    link(type='text/css', rel='stylesheet', href='/header.css') 
+    link(type='text/css', rel='stylesheet', href='/ui_layout.css') 
     block styles
 
   body
@@ -24,7 +24,7 @@ html
 
     .ui.vertically.padded.grid.container#pagegrid
       include partials/ui_header
-      block content     
+      block content
     include partials/ui_footer
 
     block scripts 

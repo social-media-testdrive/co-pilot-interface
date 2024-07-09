@@ -54,12 +54,14 @@ mongoose.connection.on('error', (err) => {
  * Primary app routes.
  * (In alphabetical order)
  */
-app.get('/', (req, res) => {
-    res.render('home');
-});
-
+app.get('/', scriptController.getScenarios);
 app.get('/chat', scriptController.getChat);
-app.get('/:sessionID', scriptController.getScript);
+app.get('/:scenario', (req, res) => {
+    res.render('home', {
+        isResearcher: req.query.footer
+    });
+});
+app.get('/:scenario/:sessionID', scriptController.getScript);
 
 app.post('/feed', scriptController.postfeedAction);
 app.post('/chat', scriptController.postchatAction);

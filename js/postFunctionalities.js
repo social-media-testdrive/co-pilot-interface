@@ -9,7 +9,7 @@ var socket = io();
 // let notification_timeout;
 // let typing_timeout;
 
-let sessionID = window.location.pathname.split("/")[1];
+let sessionID = window.location.pathname.split("/")[2];
 
 // Socket listening to broadcasts
 // ----- BELOW IS UNUSED FOR THIS PROJECT.

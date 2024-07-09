@@ -4,8 +4,24 @@ const Actor = require('../models/Actor.js');
 const helpers = require('./helpers');
 const _ = require('lodash');
 
+/** GET /scenarios 
+ * Returns a list of the experimental scenarios
+ */
+exports.getScenarios = async(req, res, next) => {
+    try {
+        let scenarios = await Script.find().distinct("scenario").exec();
+        res.render('select', {
+            scenarios: scenarios,
+            title: 'Select Scenario'
+        });
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+}
+
 /**
- * GET /:sessionID
+ * GET /:scenario/:sessionID
  * Returns feed of posts, with the user's actions on the posts accounted for.
  */
 exports.getScript = async(req, res, next) => {
@@ -20,7 +36,7 @@ exports.getScript = async(req, res, next) => {
         }
 
         //Get the newsfeed
-        let script_feed = await Script.find()
+        let script_feed = await Script.find({ scenario: req.params.scenario })
             .sort('-time')
             .populate('actor')
             .populate('comments.actor')
@@ -102,7 +118,8 @@ exports.getScript = async(req, res, next) => {
         res.render('index', {
             script: finalfeed,
             numComments: session.numComments,
-            title: 'Feed'
+            title: 'Feed',
+            isResearcher: req.query.footer
         });
     } catch (err) {
         console.log(err);
@@ -119,9 +136,11 @@ exports.getChat = async(req, res, next) => {
         let session = await Session.findOne({ sessionID: req.query.sessionID }).exec();
 
         const feedIndex = _.findIndex(session.chatAction, function(o) { return o.chat_id == req.query.chat_id });
-        const messages = session.chatAction[feedIndex].messages;
+        if (feedIndex != -1) {
+            const messages = session.chatAction[feedIndex].messages;
+            res.send(messages);
+        }
 
-        res.send(messages);
     } catch (err) {
         console.log(err);
         next(err);

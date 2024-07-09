@@ -15,11 +15,12 @@
   //- Normal Base Post
   .content
     .right.floated.time.meta= (Date.now() + val.time)
-    a.left.floated(href='/user/'+val.actor.username)
+    a.left.floated
       img.ui.avatar.image(src='/profile_pictures/'+val.actor.profile.picture)
       span=val.actor.profile.name
-  .img.post.image
-    img(src="/post_pictures/"+val.picture)
+  if val.picture
+    .img.post.image
+      img(src="/post_pictures/"+val.picture)
   .content
     .description!=val.body
   .ui.bottom.attached.icon.buttons
