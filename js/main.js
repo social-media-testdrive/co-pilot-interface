@@ -23,17 +23,17 @@ function updateChatImage() {
 
     const src = (isAgent === 'false') ? "/profile_pictures/convo_bot.png" : "/profile_pictures/avatar-icon.svg";
     if (window.location.pathname !== "/") {
-        $(".chat .chat-header img.ui.avatar.image").attr("src", src);
+        $("#copilot-chat .chat .chat-header img.ui.avatar.image").attr("src", src);
         if (isAgent == 'true') {
-            $(".chat .chat-header .chat-about").css("margin-top", "0px");
-            $(".chat .chat-header").css("background", "#ffb500");
-            $(".chat .chat-header img.ui.avatar.image").css("margin-top", "0.35em");
-            $(".chat .chat-header .chat-about .chat-with").html("Chat with USER <br/>(as " + agentType + ")");
+            $("#copilot-chat .chat .chat-header .chat-about").css("margin-top", "0px");
+            $(".chat .chat-header").css("background", "#00AEEF");
+            $("#copilot-chat .chat .chat-header img.ui.avatar.image").css("margin-top", "0.35em");
+            $("#copilot-chat .chat .chat-header .chat-about .chat-with").html("Chat with USER <br/>(as " + agentType + ")");
         } else {
-            $(".chat .chat-header .chat-about").css("margin-top", "6px");
+            $("#copilot-chat .chat .chat-header .chat-about").css("margin-top", "6px");
             $(".chat .chat-header").css("background", "#293239");
-            $(".chat .chat-header img.ui.avatar.image").css("margin-top", "0em");
-            $(".chat .chat-header .chat-about .chat-with").html("Chat with Co-Pilot");
+            $("#copilot-chat .chat .chat-header img.ui.avatar.image").css("margin-top", "0em");
+            $("#copilot-chat .chat .chat-header .chat-about .chat-with").html("Chat with Co-Pilot");
         }
     }
 }

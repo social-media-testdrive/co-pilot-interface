@@ -139,8 +139,9 @@ exports.getChat = async(req, res, next) => {
         if (feedIndex != -1) {
             const messages = session.chatAction[feedIndex].messages;
             res.send(messages);
+        } else {
+            res.send([]);
         }
-
     } catch (err) {
         console.log(err);
         next(err);

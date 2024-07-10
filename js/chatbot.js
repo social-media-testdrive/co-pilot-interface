@@ -1,3 +1,36 @@
+function openActorChat(username, picture) {
+    // Update chat header
+    $(".actor-chat").attr("id", username);
+    $(".actor-chat .chat .chat-header img.ui.avatar.image").attr("src", picture);
+    $(".actor-chat .chat .chat-header .chat-about .chat-with").text("Chat with " + username);
+    // Update chat history 
+    const chat = $('.actor-chat.container.clearfix').data('chatInstance');
+    chat.chatId = username;
+    chat.mostRecentMessenger = null;
+    chat.resetChat();
+    // Show chat
+    if (!$('.actor-chat .chat').is(":visible")) {
+        $('.actor-chat .chat').transition('fade up');
+    }
+    // Toggle chat up
+    if (!$('.actor-chat .chat .chat-history').is(":visible")) {
+        $('.actor-chat .chat .chat-history').slideToggle(300, 'swing');
+    }
+    // Get previous messages in #USERNAME chat
+    $.getJSON("/chat", { "sessionID": sessionID, "chat_id": username }, function(data) {
+        for (const msg of data) {
+            chat.addMessageExternal(msg.body, msg.absTime, msg.name, msg.isAgent);
+        }
+    });
+}
+
+function clickMessageUser(event) {
+    let target = $(event.target);
+    const username = target.parent().siblings(".header").text();
+    const picture = target.parent().siblings(".header").find("img").attr("src");
+    openActorChat(username, picture);
+}
+
 $(window).on("load", function() {
     // Get previous messages in #co-pilot chat
     $.getJSON("/chat", { "sessionID": sessionID, "chat_id": "copilot-chat" }, function(data) {
@@ -8,19 +41,23 @@ $(window).on("load", function() {
     });
 
     // Socket listening to broadcasts
-    socket.on("chat message", function(msg) {
-        const chat = $('.container.clearfix').data('chatInstance');
+    socket.on("chat message", async function(msg) {
+        const chatId = msg.chatId;
+        const chat = chatId == "copilot-chat" ? $('#copilot-chat.container.clearfix').data('chatInstance') : $('.actor-chat.container.clearfix').data('chatInstance');
         if (chat && sessionID == msg.sessionID) {
+            //- Received message to actor chat
             chat.addMessageExternal(msg.body, msg.absTime, msg.name, msg.isAgent);
-        } else {
-            console.error("Chat instance not found for message:", msg);
         }
     });
+
+    // Enable popups over usernames
+    $('.username').popup({ hoverable: true });
 
     $('.container.clearfix').each(function() {
         const chatId = this.id;
         const chat = {
             mostRecentMessenger: null,
+            chatId: chatId,
             init: function() {
                 this.cacheDOM();
                 this.bindEvents();
@@ -31,11 +68,13 @@ $(window).on("load", function() {
                     this.$chatHistory = $('#' + chatId + ' .chat-history');
                     this.$button = $('#' + chatId + ' button');
                     this.$textarea = $('#' + chatId + ' #message-to-send');
+                    // this.$img = $('#' + chatId + ' img.ui.avatar.image');
                     this.$chatHistoryList = this.$chatHistory.find('ul');
                 } else {
-                    this.$chatHistory = $('.chat-history');
-                    this.$button = $('button');
-                    this.$textarea = $('#message-to-send');
+                    this.$chatHistory = $('.actor-chat .chat-history');
+                    this.$button = $('.actor-chat button');
+                    this.$textarea = $('.actor-chat #message-to-send');
+                    // this.$img = $('.actor-chat img.ui.avatar.image');
                     this.$chatHistoryList = this.$chatHistory.find('ul');
                 }
             },
@@ -44,7 +83,6 @@ $(window).on("load", function() {
                 this.$textarea.on('keydown', this.addMessageEnter.bind(this));
             },
             render: function(body, absTime, name, isAgent) {
-                this.scrollToBottom();
                 if (body.trim() !== '') {
                     let template;
                     if (isAgent) {
@@ -64,10 +102,9 @@ $(window).on("load", function() {
 
                     this.scrollToBottom();
                     this.$textarea.val('');
-
-                    setTimeout(function() {
-                        this.scrollToBottom();
-                    }.bind(this), 1500);
+                } else {
+                    this.scrollToBottom();
+                    this.$textarea.val('');
                 }
                 if (!this.$chatHistory.is(":visible")) {
                     this.$chatHistory.slideToggle(300, 'swing');
@@ -77,15 +114,13 @@ $(window).on("load", function() {
             addMessage: function() {
                 const isAgent = $('#isAgentCheckbox input').is(":checked");
                 const agentType = $('#agentTypeDropdown').dropdown('get value');
-
-                // TO DO: Edit chat interface to include photo of agent & participant
-                // const src = !isAgent ? "/profile_pictures/avatar-icon.svg" : actors[agentType];
                 const name = !isAgent ? "Me" : agentType;
                 const message = this.$textarea.val();
                 const time = this.getCurrentTime();
 
                 socket.emit("chat message", {
                     sessionID: sessionID,
+                    chatId: this.chatId,
                     body: message,
                     absTime: time,
                     name: name,
@@ -95,7 +130,7 @@ $(window).on("load", function() {
 
                 $.post("/chat", {
                     sessionID: sessionID,
-                    chat_id: chatId,
+                    chat_id: this.chatId,
                     body: message,
                     absTime: time,
                     name: name,
@@ -108,9 +143,7 @@ $(window).on("load", function() {
             },
 
             addMessageEnter: function(event) {
-                // Enter was pressed without shift key
                 if (event.keyCode == 13 && !event.shiftKey) {
-                    // prevent default behavior
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     this.addMessage();
@@ -127,31 +160,25 @@ $(window).on("load", function() {
                 return new Date().toLocaleTimeString().
                 replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
             },
+
+            resetChat: function() {
+                this.$chatHistoryList.empty();
+            }
         };
         chat.init();
     });
 
     // Minimize chat box
-    $('a.chat-minimize').click(function(e) {
-        e.preventDefault();
+    $('.chat-minimize, .chat-header').click(function(e) {
+        e.stopImmediatePropagation();
         let chat = $(this).closest('.chat').children('.chat-history');
         chat.slideToggle(300, 'swing');
     });
 
     // Close chat box
-    // $('a.chat-close').click(function(e) {
-    //     e.preventDefault();
-    //     let chat = $(this).closest('.chat');
-    //     chat.fadeOut(300, 'swing');
-    //     var chatId = $(this).closest('.container.clearfix')[0].id;
-
-    //     $.post("/chatAction", {
-    //         absTime: Date.now(),
-    //         chatId: (chatId) ? chatId : 'chatbox1',
-    //         subdirectory2: pathArray[2],
-    //         subdirectory1: pathArray[1],
-    //         closed: true,
-    //         _csrf: $('meta[name="csrf-token"]').attr('content')
-    //     });
-    // });
+    $('.chat-close').click(function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $('.actor-chat .chat').transition('fade down');
+    });
 });
