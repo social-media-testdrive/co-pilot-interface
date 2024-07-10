@@ -20,7 +20,7 @@ $(window).on("load", function() {
     $('.container.clearfix').each(function() {
         const chatId = this.id;
         const chat = {
-            // messageResponses: [],
+            mostRecentMessenger: null,
             init: function() {
                 this.cacheDOM();
                 this.bindEvents();
@@ -55,8 +55,10 @@ $(window).on("load", function() {
                     let context = {
                         name: name,
                         messageOutput: body,
-                        time: absTime
+                        time: absTime,
+                        addProfilePhoto: this.mostRecentMessenger != name,
                     };
+                    this.mostRecentMessenger = name;
 
                     this.$chatHistoryList.append(template(context));
 
@@ -83,7 +85,7 @@ $(window).on("load", function() {
                 const time = this.getCurrentTime();
 
                 socket.emit("chat message", {
-                    sessionID: window.location.pathname.split('/')[1],
+                    sessionID: sessionID,
                     body: message,
                     absTime: time,
                     name: name,

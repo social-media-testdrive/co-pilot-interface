@@ -21,14 +21,18 @@ function updateChatImage() {
     const isAgent = window.sessionStorage.getItem('isAgent');
     const agentType = window.sessionStorage.getItem('agentType');
 
-    const src = (isAgent === 'false') ? "/profile_pictures/convo_bot.png" : actors[agentType];
+    const src = (isAgent === 'false') ? "/profile_pictures/convo_bot.png" : "/profile_pictures/avatar-icon.svg";
     if (window.location.pathname !== "/") {
         $(".chat .chat-header img.ui.avatar.image").attr("src", src);
         if (isAgent == 'true') {
             $(".chat .chat-header .chat-about").css("margin-top", "0px");
-            $(".chat .chat-header .chat-about .chat-with").html("Chat as Co-Pilot <br/>(" + agentType + ")");
+            $(".chat .chat-header").css("background", "#ffb500");
+            $(".chat .chat-header img.ui.avatar.image").css("margin-top", "0.35em");
+            $(".chat .chat-header .chat-about .chat-with").html("Chat with USER <br/>(as " + agentType + ")");
         } else {
             $(".chat .chat-header .chat-about").css("margin-top", "6px");
+            $(".chat .chat-header").css("background", "#293239");
+            $(".chat .chat-header img.ui.avatar.image").css("margin-top", "0em");
             $(".chat .chat-header .chat-about .chat-with").html("Chat with Co-Pilot");
         }
     }
