@@ -14,7 +14,7 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     color: #434651; */
-    background: #fff;
+    background: transparent;
     bottom: 60px;
     font-size: 12px;
     position: fixed;
@@ -84,6 +84,7 @@
     border-left: 2px solid #e0dcdc;
     padding: 10px 10px;
     overflow-y: scroll;
+    background: #fff;
 }
 
 .chat .chat-history ul {
@@ -186,6 +187,7 @@
 .chat .chat-message {
     padding: 15px;
     border-left: 2px solid #e0dcdc;
+    background: #fff;
 }
 
 .chat .chat-message textarea,

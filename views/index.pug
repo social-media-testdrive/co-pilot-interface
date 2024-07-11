@@ -3,7 +3,7 @@ extends ui_layout
 
 block content
   -const actors = { "Co-Pilot": "/profile_pictures/convo_bot.png", "Mrs. Warren": "/profile_pictures/teacher.jpg", "Daniel Powers": "/profile_pictures/student.jpg", "Alfred Fluffington": "/profile_pictures/student2.jpg"}
-  #content.eight.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column       
+  #content.eight.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column(style="display:none;")  
     each val in script
       include partials/actorPost
   .computer.only.tablet.only.six.wide.column

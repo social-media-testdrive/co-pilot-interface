@@ -412,7 +412,8 @@ function unflagComment(e) {
 
 $(window).on("load", () => {
     // add humanized time to all posts
-    $('.right.floated.time.meta, .date, .time.notificationTime').each(addHumanizedTimeToPost);
+    $('.right.floated.time.meta, .date').each(addHumanizedTimeToPost);
+    $('#content').fadeIn('slow');
 
     // Focuses cursor to new comment input field, if the "Reply" button is clicked
     $(".reply.button").click(function() {
@@ -454,17 +455,17 @@ $(window).on("load", () => {
     $("a.unflag").click(unflagComment);
 
     // closes notification by clicking "x"
-    $(".message .close").on("click", function() {
-        $(this).closest(".message").transition("fade");
-    });
+    // $(".message .close").on("click", function() {
+    //     $(this).closest(".message").transition("fade");
+    // });
 
     // scroll to appropriate post when notification popup is clicked
-    $('.notificationPopup').on('click', function(event) {
-        if ($(event.target).hasClass('close')) {
-            return false;
-        }
+    // $('.notificationPopup').on('click', function(event) {
+    //     if ($(event.target).hasClass('close')) {
+    //         return false;
+    //     }
 
-        var relevantPostNumber = $(this).attr('correspondingPost');
-        $(".ui.card[postID =" + relevantPostNumber + "]").find('textarea.newcomment')[0].scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
-    });
+    //     var relevantPostNumber = $(this).attr('correspondingPost');
+    //     $(".ui.card[postID =" + relevantPostNumber + "]").find('textarea.newcomment')[0].scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+    // });
 })

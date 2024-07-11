@@ -48,8 +48,9 @@ $(window).on("load", function() {
             //- If message received is to a new actor
             if (chatId != "copilot-chat" && chatId != chat.chatId) {
                 await openActorChat(msg.chatId, msg.actorSrc);
+            } else {
+                chat.addMessageExternal(msg.body, msg.absTime, msg.name, msg.isAgent);
             }
-            chat.addMessageExternal(msg.body, msg.absTime, msg.name, msg.isAgent);
         }
     });
 

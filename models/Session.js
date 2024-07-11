@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const sessionSchema = new mongoose.Schema({
     sessionID: { type: String, default: '', trim: true, unique: true },
+    createdAt: Date, // Absolute Time the user was created
 
     numComments: { type: Number, default: -1 }, // Indicates the number of comments the user has created. Count starts at -1
 

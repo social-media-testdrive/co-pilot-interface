@@ -31,6 +31,7 @@ exports.getScript = async(req, res, next) => {
         if (!session) {
             session = new Session({
                 sessionID: req.params.sessionID,
+                createdAt: Date.now()
             });
             await session.save();
         }
@@ -118,6 +119,7 @@ exports.getScript = async(req, res, next) => {
         res.render('index', {
             script: finalfeed,
             numComments: session.numComments,
+            createdAt: session.createdAt,
             title: 'Feed',
             isResearcher: req.query.footer
         });
