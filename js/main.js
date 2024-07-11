@@ -26,14 +26,18 @@ function updateChatImage() {
         $("#copilot-chat .chat .chat-header img.ui.avatar.image").attr("src", src);
         if (isAgent == 'true') {
             $("#copilot-chat .chat .chat-header .chat-about").css("margin-top", "0px");
-            $(".chat .chat-header").css("background", "#00AEEF");
+            $(".chat .chat-header").css("background", "#5ca6d0");
             $("#copilot-chat .chat .chat-header img.ui.avatar.image").css("margin-top", "0.35em");
             $("#copilot-chat .chat .chat-header .chat-about .chat-with").html("Chat with USER <br/>(as " + agentType + ")");
+            $(".actor-chat .chat-message textarea").attr("disabled", "true");
+            $(".actor-chat .chat-message textarea").attr("placeholder", "As Co-Pilot, you cannot chat with the actors. You may see what the research participant has chatted though.");
         } else {
             $("#copilot-chat .chat .chat-header .chat-about").css("margin-top", "6px");
             $(".chat .chat-header").css("background", "#293239");
             $("#copilot-chat .chat .chat-header img.ui.avatar.image").css("margin-top", "0em");
             $("#copilot-chat .chat .chat-header .chat-about .chat-with").html("Chat with Co-Pilot");
+            $(".actor-chat .chat-message textarea").removeAttr("disabled");
+            $(".actor-chat .chat-message textarea").attr("placeholder", "Type your message");
         }
     }
 }

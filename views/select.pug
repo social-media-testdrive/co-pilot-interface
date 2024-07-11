@@ -2,21 +2,23 @@
 extends ui_layout
 
 block content
-  #content.ten.wide.computer.ten.wide.tablet.sixteen.wide.mobile.column
+  #content.fourteen.wide.computer.twelve.wide.tablet.sixteen.wide.mobile.column
     div(style="display:flex; flex-direction:column;")
-      h3(style="margin:0px;") Select an experimental scenario below. 
-      h3(style="margin:0px;") You will then be redirected to a new URL. 
-      h3(style="font-weight: normal;") Share this new URL 
-        span(style="font-weight:bold; text-decoration: underline") as is
-        |  with the 
-        span(style="font-weight:bold;") research participant.
-      h3(style="font-weight: normal; margin:0px;") Share this new URL with 
-        span(style="font-weight:bold; text-decoration: underline;") ?footer=true
-        |   appended to the end with the 
-        span(style="font-weight:bold;") researcher.
-      each scenario in scenarios
-        a.ui.button(style="margin:10px;", href="/"+scenario)
-          h3 !{scenario}
+      h3(style="margin:0px;") Select the corresponding scenario and role for the study link to share.
+      table.ui.celled.stackable.table
+        thead
+          tr
+            th(style="background:#F5F8FA")
+            th Research Participant 
+            th Researcher
+        tbody
+          each scenario in scenarios
+            tr
+              td(style="font-weight:bold;") !{scenario}
+              td
+                a(href="/"+scenario)="/"+ scenario
+              td
+                a(href="/"+scenario+"?footer=true")="/"+scenario+"?footer=true"
   
 block styles
   link(rel='stylesheet', href='home.css')

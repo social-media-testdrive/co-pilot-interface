@@ -81,6 +81,7 @@
 .chat .chat-history {
     height: 300px;
     border-bottom: 2px solid #e0dcdc;
+    border-left: 2px solid #e0dcdc;
     padding: 10px 10px;
     overflow-y: scroll;
 }
@@ -184,6 +185,7 @@
 
 .chat .chat-message {
     padding: 15px;
+    border-left: 2px solid #e0dcdc;
 }
 
 .chat .chat-message textarea,

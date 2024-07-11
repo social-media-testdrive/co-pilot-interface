@@ -1,4 +1,4 @@
-function openActorChat(username, picture) {
+async function openActorChat(username, picture) {
     // Update chat header
     $(".actor-chat").attr("id", username);
     $(".actor-chat .chat .chat-header img.ui.avatar.image").attr("src", picture);
@@ -17,7 +17,7 @@ function openActorChat(username, picture) {
         $('.actor-chat .chat .chat-history').slideToggle(300, 'swing');
     }
     // Get previous messages in #USERNAME chat
-    $.getJSON("/chat", { "sessionID": sessionID, "chat_id": username }, function(data) {
+    await $.getJSON("/chat", { "sessionID": sessionID, "chat_id": username }, function(data) {
         for (const msg of data) {
             chat.addMessageExternal(msg.body, msg.absTime, msg.name, msg.isAgent);
         }
@@ -46,6 +46,7 @@ $(window).on("load", function() {
         const chat = chatId == "copilot-chat" ? $('#copilot-chat.container.clearfix').data('chatInstance') : $('.actor-chat.container.clearfix').data('chatInstance');
         if (chat && sessionID == msg.sessionID) {
             //- Received message to actor chat
+            await openActorChat(msg.chatId, msg.actorSrc);
             chat.addMessageExternal(msg.body, msg.absTime, msg.name, msg.isAgent);
         }
     });
@@ -68,13 +69,13 @@ $(window).on("load", function() {
                     this.$chatHistory = $('#' + chatId + ' .chat-history');
                     this.$button = $('#' + chatId + ' button');
                     this.$textarea = $('#' + chatId + ' #message-to-send');
-                    // this.$img = $('#' + chatId + ' img.ui.avatar.image');
+                    this.$img = $('#' + chatId + ' img.ui.avatar.image');
                     this.$chatHistoryList = this.$chatHistory.find('ul');
                 } else {
                     this.$chatHistory = $('.actor-chat .chat-history');
                     this.$button = $('.actor-chat button');
                     this.$textarea = $('.actor-chat #message-to-send');
-                    // this.$img = $('.actor-chat img.ui.avatar.image');
+                    this.$img = $('.actor-chat img.ui.avatar.image');
                     this.$chatHistoryList = this.$chatHistory.find('ul');
                 }
             },
@@ -118,13 +119,17 @@ $(window).on("load", function() {
                 const message = this.$textarea.val();
                 const time = this.getCurrentTime();
 
+                const actorSrc = this.$img.attr("src");
+
                 socket.emit("chat message", {
                     sessionID: sessionID,
                     chatId: this.chatId,
                     body: message,
                     absTime: time,
                     name: name,
-                    isAgent: isAgent
+                    isAgent: isAgent,
+
+                    actorSrc: actorSrc
                 });
                 this.render(message, time, name, isAgent);
 
