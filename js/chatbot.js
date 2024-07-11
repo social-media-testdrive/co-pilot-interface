@@ -45,8 +45,10 @@ $(window).on("load", function() {
         const chatId = msg.chatId;
         const chat = chatId == "copilot-chat" ? $('#copilot-chat.container.clearfix').data('chatInstance') : $('.actor-chat.container.clearfix').data('chatInstance');
         if (chat && sessionID == msg.sessionID) {
-            //- Received message to actor chat
-            await openActorChat(msg.chatId, msg.actorSrc);
+            //- If message received is to a new actor
+            if (chatId != "copilot-chat" && chatId != chat.chatId) {
+                await openActorChat(msg.chatId, msg.actorSrc);
+            }
             chat.addMessageExternal(msg.body, msg.absTime, msg.name, msg.isAgent);
         }
     });
