@@ -131,7 +131,7 @@ exports.getScript = async(req, res, next) => {
 
 /**
  * GET /chat
- * Returns list of messages of chat with chat_id value
+ * Returns list of messages of chat with chat_id value. Chat absTimes are converted to strings.
  */
 exports.getChat = async(req, res, next) => {
     try {
@@ -139,7 +139,14 @@ exports.getChat = async(req, res, next) => {
 
         const feedIndex = _.findIndex(session.chatAction, function(o) { return o.chat_id == req.query.chat_id });
         if (feedIndex != -1) {
-            const messages = session.chatAction[feedIndex].messages;
+            let messages = session.chatAction[feedIndex].messages;
+            messages = messages.map(messageDoc => {
+                let message = messageDoc.toObject(); // Convert to plain JavaScript object
+                return {
+                    ...message, // Spread the existing properties of the message
+                    absTime: message.absTime.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3") // Modify the absTime value
+                }
+            });
             res.send(messages);
         } else {
             res.send([]);
