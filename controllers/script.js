@@ -203,21 +203,27 @@ exports.postfeedAction = async(req, res, next) => {
             // Like comment
             if (req.body.like) {
                 userAction[feedIndex].comments[commentIndex].liked = true;
+                userAction[feedIndex].comments[commentIndex].likeTime.push(req.body.like);
             }
 
             // Unlike comment
             if (req.body.unlike) {
                 userAction[feedIndex].comments[commentIndex].liked = false;
+                userAction[feedIndex].comments[commentIndex].unlikeTime.push(req.body.unlike);
             }
 
             // Flag comment
             else if (req.body.flag) {
                 userAction[feedIndex].comments[commentIndex].flagged = true;
+                userAction[feedIndex].comments[commentIndex].flagTime.push(req.body.flag);
+
             }
 
             // Unflag comment
             else if (req.body.unflag) {
                 userAction[feedIndex].comments[commentIndex].flagged = false;
+                userAction[feedIndex].comments[commentIndex].unflagTime.push(req.body.unflag);
+
             }
         }
         // Not a comment-- Are we doing anything with the post?
@@ -225,26 +231,34 @@ exports.postfeedAction = async(req, res, next) => {
             // Flag post
             if (req.body.flag) {
                 userAction[feedIndex].flagged = true;
+                userAction[feedIndex].flagTime.push(req.body.flag);
             }
 
             // Unflag post
             else if (req.body.unflag) {
                 userAction[feedIndex].flagged = false;
+                userAction[feedIndex].unflagTime.push(req.body.unflag);
             }
 
             // Share post
             else if (req.body.share) {
                 userAction[feedIndex].shared = true;
+                userAction[feedIndex].shareTime.push(req.body.share);
+
             }
 
             // Like post
             else if (req.body.like) {
                 userAction[feedIndex].liked = true;
+                userAction[feedIndex].likeTime.push(req.body.like);
+
             }
 
             // Unlike event
             else if (req.body.unlike) {
                 userAction[feedIndex].liked = false;
+                userAction[feedIndex].unlikeTime.push(req.body.unlike);
+
             } else {
                 console.log('Something in feedAction went crazy. You should never see this.');
             }

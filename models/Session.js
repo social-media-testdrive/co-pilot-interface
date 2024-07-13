@@ -15,6 +15,12 @@ const sessionSchema = new mongoose.Schema({
         flagged: { type: Boolean, default: false }, // Indicates if the user flagged the post. 
         shared: { type: Boolean, default: false }, // Indicates if the user shared the post. 
 
+        likeTime: [Date], // List of absolute times when the user has liked the post
+        unlikeTime: [Date], // List of absolute times when the user has unliked the post
+        flagTime: [Date], // List of absolute times when the user has flagged the post
+        unflagTime: [Date], // List of absolute times when the user has unflagged the post
+        shareTime: [Date], // List of absolute times when the user has shared the post
+
         comments: [new Schema({
             comment: { type: Schema.ObjectId },
             comment_id: String, // '1', '2', '3' etc.
@@ -26,7 +32,11 @@ const sessionSchema = new mongoose.Schema({
             absTime: Date, // The absolute date (time) of when the user made the comment.
 
             liked: { type: Boolean, default: false }, // Indicates if the user liked the comment.
-            flagged: { type: Boolean, default: false }, // Indicates if the user liked the comment. 
+            flagged: { type: Boolean, default: false }, // Indicates if the user liked the comment.
+            likeTime: [Date], // List of absolute times when the user has liked the post
+            unlikeTime: [Date], // List of absolute times when the user has unliked the post
+            flagTime: [Date], // List of absolute times when the user has flagged the post
+            unflagTime: [Date] // List of absolute times when the user has unflagged the post
         }, { _id: true, versionKey: false })],
     }, { _id: false, versionKey: false })],
     // interactions with chats
@@ -34,7 +44,7 @@ const sessionSchema = new mongoose.Schema({
         chat_id: String, // chat id's are defined by who it is in correspondance with: aka actors' usernames
         messages: [new Schema({
             body: { type: String, default: '', trim: true }, // Body of the chat message
-            absTime: String, // The absolute date (time) of when the chat message was made
+            absTime: Date, // The absolute date (time) of when the chat message was made
             name: String, // Indicates who made the chat message
             isAgent: { type: Boolean, default: false }, // Indicates if the user made the chat message
         }, { _id: true, versionKey: false })],

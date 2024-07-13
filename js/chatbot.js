@@ -140,7 +140,7 @@ $(window).on("load", function() {
                     sessionID: sessionID,
                     chat_id: this.chatId,
                     body: message,
-                    absTime: time,
+                    absTime: Date.now(),
                     name: name,
                     isAgent: isAgent
                 });
