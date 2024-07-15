@@ -2,19 +2,18 @@
 //- -var labels_2 = [ "Co-Pilot", "Mrs. Warren", "Daniel Powers", "Alfred Fluffington"]
 -var labels_2 = [ "Co-Pilot"]
 .ui.bottom.fixed.small.borderless.menu.testDriveFooter
-  if isResearcher
-    .left.menu
-      .item
-        .ui.toggle.checkbox.hidden#isAgentCheckbox
-          input(type="checkbox", name="isAgentCheckbox" id='isAgentCheckbox')
-          label(for='isAgentCheckbox') isAgent (On/Off)
-      .item
-        .ui.selection.dropdown.hidden#agentTypeDropdown
-          i.dropdown.icon 
-          .text Select Agent 
-          .menu
-            each key in labels_2
-              .item(data-value=key) #{key}
+  .left.menu(style=hasFooter?"": "visibility:hidden;")
+    .item
+      .ui.toggle.checkbox.hidden#isAgentCheckbox
+        input(type="checkbox", name="isAgentCheckbox" id='isAgentCheckbox' checked=isCoPilot?true:false)
+        label(for='isAgentCheckbox') isAgent (On/Off)
+    .item
+      .ui.selection.dropdown.hidden#agentTypeDropdown
+        i.dropdown.icon 
+        .text Select Agent 
+        .menu
+          each key in labels_2
+            .item(data-value=key) #{key}
         
   .right.menu
     .item(id="sessionID") Session ID:

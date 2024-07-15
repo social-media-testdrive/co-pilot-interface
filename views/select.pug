@@ -9,8 +9,8 @@ block content
         thead
           tr
             th(style="background:#F5F8FA")
-            th Research Participant 
-            th Researcher
+            th Student Role 
+            th Co-Pilot Role
         tbody
           each scenario in scenarios
             tr
@@ -18,7 +18,8 @@ block content
               td
                 a(href="/"+scenario)="/"+ scenario
               td
-                a(href="/"+scenario+"?footer=true")="/"+scenario+"?footer=true"
+                a(href="/"+scenario+"?copilot=true")="/"+scenario+"?copilot=true"
+      h4 * Note: If you'd like to display the footer toggle, add "footer=true" as a query parameter to the end of the link.
   
 block styles
   link(rel='stylesheet', href='home.css')

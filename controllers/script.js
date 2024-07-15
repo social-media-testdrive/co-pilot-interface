@@ -121,7 +121,8 @@ exports.getScript = async(req, res, next) => {
             numComments: session.numComments,
             createdAt: session.createdAt,
             title: 'Feed',
-            isResearcher: req.query.footer
+            isCoPilot: req.query.copilot,
+            hasFooter: req.query.footer
         });
     } catch (err) {
         console.log(err);

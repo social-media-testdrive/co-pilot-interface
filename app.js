@@ -58,7 +58,8 @@ app.get('/', scriptController.getScenarios);
 app.get('/chat', scriptController.getChat);
 app.get('/:scenario', (req, res) => {
     res.render('home', {
-        isResearcher: req.query.footer
+        isCoPilot: req.query.copilot,
+        hasFooter: req.query.footer
     });
 });
 app.get('/:scenario/:sessionID', scriptController.getScript);
