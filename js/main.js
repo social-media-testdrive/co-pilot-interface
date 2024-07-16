@@ -43,10 +43,8 @@ function updateChatImage() {
 }
 
 $(window).on("load", function() {
-    // Check previous page, keep the same settings.
-    const initialIsAgent = window.sessionStorage.getItem('isAgent');
     const isAgent = $('#isAgentCheckbox input').is(":checked");
-    if (initialIsAgent === 'true' || isAgent) {
+    if (isAgent) {
         window.sessionStorage.setItem('isAgent', 'true');
         $('#isAgentCheckbox input').prop('checked', true);
     } else {
