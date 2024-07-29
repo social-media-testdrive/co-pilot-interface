@@ -86,7 +86,7 @@ $(window).on("load", function() {
                 this.$button.on('click', this.addMessage.bind(this));
                 this.$textarea.on('keydown', this.addMessageEnter.bind(this));
             },
-            render: function(body, absTime, name, isAgent) {
+            render: function(body, absTime, name, isAgent, isExternalMessage) {
                 if (body.trim() !== '') {
                     let template;
                     if (isAgent) {
@@ -105,10 +105,14 @@ $(window).on("load", function() {
                     this.$chatHistoryList.append(template(context));
 
                     this.scrollToBottom();
-                    this.$textarea.val('');
+                    if (!isExternalMessage) {
+                        this.$textarea.val('');
+                    }
                 } else {
                     this.scrollToBottom();
-                    this.$textarea.val('');
+                    if (!isExternalMessage) {
+                        this.$textarea.val('');
+                    }
                 }
                 if (!this.$chatHistory.is(":visible")) {
                     this.$chatHistory.slideToggle(300, 'swing');
@@ -134,7 +138,7 @@ $(window).on("load", function() {
 
                     actorSrc: actorSrc
                 });
-                this.render(message, time, name, isAgent);
+                this.render(message, time, name, isAgent, false);
 
                 $.post("/chat", {
                     sessionID: sessionID,
@@ -147,7 +151,7 @@ $(window).on("load", function() {
             },
 
             addMessageExternal: function(body, absTime, name, isAgent) {
-                this.render(body, absTime, name, isAgent);
+                this.render(body, absTime, name, isAgent, true);
             },
 
             addMessageEnter: function(event) {
