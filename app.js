@@ -75,11 +75,18 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('chat message', msg); // emit to all listening socketes but the one sending
     });
 
-    socket.on('post comment', msg => {
-        // console.log(msg);
-        // io.emit('post comment', msg); // emit to all listening sockets
-        socket.broadcast.emit('post comment', msg); // emit to all listening socketes but the one sending
+    socket.on('chat typing', msg => {
+        console.log(msg);
+        // io.emit('chat message', msg); // emit to all listening sockets
+        socket.broadcast.emit('chat typing', msg); // emit to all listening socketes but the one sending
     });
+
+    // Not used
+    // socket.on('post comment', msg => {
+    // console.log(msg);
+    // io.emit('post comment', msg); // emit to all listening sockets
+    //     socket.broadcast.emit('post comment', msg); // emit to all listening socketes but the one sending
+    // });
 
     socket.on('error', function(err) {
         console.log(err);
