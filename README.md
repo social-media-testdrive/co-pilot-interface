@@ -30,8 +30,6 @@ In one sense, it is an imagined version of the final product (which is the *Soci
     * The "Co-Pilot" user's messages appear on the left side of the chat.  The "Student" user's messages appear on the right side of the chat.
     * Note: The "Co-Pilot" user cannot respond to other chats other than the "Co-Pilot" chat.
 
-
-## Demo: https://co-pilot-lvl5.onrender.com
 ## How to Install Locally
 ### Installing the Prerequisites
 
