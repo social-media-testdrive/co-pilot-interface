@@ -1,5 +1,8 @@
-# Social Media Co-Pilot (hcc-project)
+# Social Media Co-Pilot (hcc-project) - Ongoing Study
 This is the source code for a very simple chatbot, used in the *Social Media Co-Pilot* study. This is a collaborative study at Cornell University.
+
+## Demo website
+https://co-pilot-test.onrender.com
 
 ## Description
 
