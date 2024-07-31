@@ -77,8 +77,12 @@ io.on('connection', (socket) => {
 
     socket.on('chat typing', msg => {
         console.log(msg);
-        // io.emit('chat message', msg); // emit to all listening sockets
         socket.broadcast.emit('chat typing', msg); // emit to all listening socketes but the one sending
+    });
+
+    socket.on('post activity', msg => {
+        console.log(msg);
+        io.emit('post activity', msg); // emit to all listening socketes
     });
 
     // Not used

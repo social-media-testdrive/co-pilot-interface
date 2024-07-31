@@ -1,3 +1,5 @@
+var socket = io();
+
 const actors = {
     "Co-Pilot": "/profile_pictures/convo_bot.png",
     "Mrs. Warren": "/profile_pictures/teacher.jpg",
@@ -68,9 +70,11 @@ $(window).on("load", function() {
         if ($("input[name='isAgentCheckbox']").is(":checked")) {
             window.sessionStorage.setItem('isAgent', 'true');
             $('#agentTypeDropdown').removeClass("disabled");
+            $('#activityMenu').fadeIn("fast");
         } else {
             window.sessionStorage.setItem('isAgent', 'false');
             $('#agentTypeDropdown').addClass("disabled");
+            $('#activityMenu').fadeOut("fast");
         }
         // updateNewCommentImage();
         updateChatImage();
@@ -82,5 +86,5 @@ $(window).on("load", function() {
             // updateNewCommentImage();
             updateChatImage();
         }
-    })
+    });
 });
