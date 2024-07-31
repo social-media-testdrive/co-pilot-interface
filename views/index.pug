@@ -6,7 +6,12 @@ block content
   #content.eight.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column(style="display:none;")  
     each val in script
       include partials/actorPost
-  .computer.only.tablet.only.six.wide.column
+  #content.six.wide.computer.six.wide.tablet.column
+    #activityMenu.ui.fluid.card(style="display:none;")
+      .content
+        .header Activity on POSTS (Live) 
+        p(style="font-style:italic; margin-top: 10px;") Note: This is a live-stream. So, if you reload the page, this will be cleared.
+      .content.activity-list
     include partials/chatbot
   .ui.small.basic.share.modal
     .ui.icon.header
@@ -16,6 +21,19 @@ block content
       .ui.green.ok.inverted.button
         i.checkmark.icon
         | Done
+  script#activity-template(type='text/x-handlebars-template').
+    <div class="ui small feed yellow">
+      <div class="content">
+        <div class="summary">
+          <p>{{name}} 
+            <span style="font-weight:bold;">{{description}}</span> ("<span style="font-style:italic;">{{caption}}</span>")
+            {{#if text}}
+              : <span style="font-weight:bold; color: blue;">{{text}}</span>
+            {{/if}}
+          </p>
+        </div>
+      </div>
+    </div>
   //- //-Mobile version of the notification popup
   //- .ui.fixed.bottom.sticky.notificationPopup.hidden#mobilePopup(correspondingpost=0)
   //-     .ui.info.message#removeHiddenMobile
@@ -41,7 +59,6 @@ block content
 block scripts
   script().
     var numComments = !{JSON.stringify(numComments)};
-  script(src='/socket.io/socket.io.js')
   script(src='/postFunctionalities.js')
   script(src='/chatbot.js')
 
