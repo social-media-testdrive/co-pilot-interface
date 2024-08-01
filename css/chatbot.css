@@ -20,7 +20,7 @@
     position: fixed;
     width: 400px;
     float: right;
-    z-index: 2;
+    z-index: 10;
 }
 
 #copilot-chat .chat {
