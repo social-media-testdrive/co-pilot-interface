@@ -37,6 +37,10 @@
     padding-top: 0.5em;
 }
 
+.ui.card>.content.dimmable.dimmed {
+    min-height: 300px;
+}
+
 
 /* COMMMENT */
 
