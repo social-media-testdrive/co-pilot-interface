@@ -172,6 +172,11 @@
     margin-left: 2em;
 }
 
+.chat .chat-history .other-message img,
+.chat .chat-history .my-message img {
+    height: 15px;
+}
+
 
 /* .chat .chat-history .my-message:after {
     border-bottom-color: #2185d0;

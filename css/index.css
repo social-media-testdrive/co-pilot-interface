@@ -75,6 +75,13 @@ textarea.newcomment {
 }
 
 
+/* ACTIVITY POPUPS */
+
+.ui.small.feed.yellow {
+    background-color: #fdf2e2;
+}
+
+
 /* NOTIFICATION POPUPS */
 
 

@@ -1,5 +1,8 @@
-# Social Media Co-Pilot (hcc-project)
+# Social Media Co-Pilot (hcc-project) - Ongoing Study
 This is the source code for a very simple chatbot, used in the *Social Media Co-Pilot* study. This is a collaborative study at Cornell University.
+
+## Demo website
+https://co-pilot-test.onrender.com
 
 ## Description
 
@@ -27,8 +30,6 @@ In one sense, it is an imagined version of the final product (which is the *Soci
     * The "Co-Pilot" user's messages appear on the left side of the chat.  The "Student" user's messages appear on the right side of the chat.
     * Note: The "Co-Pilot" user cannot respond to other chats other than the "Co-Pilot" chat.
 
-
-## Demo: https://co-pilot-lvl5.onrender.com
 ## How to Install Locally
 ### Installing the Prerequisites
 

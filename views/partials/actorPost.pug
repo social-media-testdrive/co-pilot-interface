@@ -58,7 +58,7 @@
                     i.heart.icon(class=comment.liked ? "red" : "")
                     span.num=comment.likes 
                     |  Likes
-                .text=comment.body
+                .text.real=comment.body
                 .actions
                   a.like.comment(class=comment.liked ? "red" : "") !{comment.liked ? "Unlike" : "Like"}
             //- Else this is a normal comment from the script
@@ -73,7 +73,7 @@
                     i.heart.icon(class=comment.liked ? "red" : "")
                     span.num=comment.likes
                     |  Likes
-                .text=comment.body
+                .text.real=comment.body
                 .actions
                   a.like.comment(class=comment.liked ? "red" : "") !{comment.liked ? "Unlike" : "Like"}
                   a.flag.comment Flag
