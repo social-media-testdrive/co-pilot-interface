@@ -4,6 +4,10 @@ This is the source code for a very simple chatbot, used in the *Social Media Co-
 ## Demo website
 https://co-pilot-test.onrender.com
 
+
+https://github.com/user-attachments/assets/2068a9d2-016a-480f-a81a-b4efe6ba15ee
+
+
 ## Description
 
 This chatbot is used to explore conversational strategies in cyberbullying. It is used in interviews with students and educators.
